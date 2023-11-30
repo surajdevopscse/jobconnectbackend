@@ -17,4 +17,4 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/api/jobs',jobRouter);
 
-app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${process.env.PORT}!`))
+app.listen(process.env.PORT || port, () => console.log(`Example app listening on port ${process.env.PORT || port}!`))
