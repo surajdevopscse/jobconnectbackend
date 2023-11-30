@@ -2,6 +2,9 @@ const { trusted } = require('mongoose');
 const Job = require('../models/job');
 
 module.exports ={
+
+
+//Create a new Job
 createJob:async(req,res)=>{
     const newsJob = new Job(req.body);
     try{
@@ -12,6 +15,8 @@ createJob:async(req,res)=>{
     }
 },
 
+
+//Update a Job by its ID
 updateJob:async(req,res)=>{
     const jobId =req.param.id;
     const updated =  req.body;
@@ -25,6 +30,9 @@ updateJob:async(req,res)=>{
         res.status(500).json(err);
     }
 },
+
+
+//Delete job by its Id
 deleteJob:async(req,res)=>{
     const jobId =req.param.id;
     try{
@@ -37,6 +45,9 @@ deleteJob:async(req,res)=>{
         res.status(500).json(err);
     }
 },
+
+
+//Get Job By Its ID
 getJob:async(req,res)=>{
     const jobId =req.param.id;
     try{
@@ -45,6 +56,52 @@ getJob:async(req,res)=>{
     }catch(err){
         res.status(500).json(err);
     }
-}
+},
+
+
+
+//Get all jobs
+getAllJobs:async(req,res)=>{
+    const recent =req.query.new;
+    try{
+       let jobs;
+       if(recent){
+        jobs = await Job.find({},{createdAt:0,updatedAt:0,__V:0}).sort({createdAt:-1}).limit(2);
+       }else{
+        jobs = await Job.find({},{createdAt:0,updatedAt:0,__V:0});
+       }
+        return res.status(200).json(jobs);
+    }catch(err){
+        res.status(500).json(err);
+    }
+},
+
+
+
+
+//Search Job Using Any Keyword
+searchJob:async(req,res)=>{
+    try{
+        const results = Job.aggregate([
+            {
+              $search: {
+                index: "jobsearch",
+                text: {
+                  query: req.param.key,
+                  path: {
+                    wildcard: "*"
+                  }
+                }
+              }
+            }
+          ]);
+          res.status(200).json(results);
+    }catch(err){
+        res.status(500).json(err);
+    }
+},
+
+
+
 
 };

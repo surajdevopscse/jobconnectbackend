@@ -10,7 +10,7 @@ period:{type:String, required:true},
 contract:{type:String, required:true},
 hiring:{type:Boolean, required:true},
 requirmename:{type:Array, required:true},
-immageUrl:{type:String, required:true},
+imageUrl:{type:String, required:true},
 
 },{timestamps:true});
 
