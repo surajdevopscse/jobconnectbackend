@@ -82,20 +82,20 @@ getAllJobs:async(req,res)=>{
 //Search Job Using Any Keyword
 searchJob:async(req,res)=>{
     try{
-        const results = Job.aggregate([
+        const results = await Job.aggregate([
             {
               $search: {
                 index: "jobsearch",
                 text: {
-                  query: req.param.key,
+                  query: req.params.key,
                   path: {
                     wildcard: "*"
                   }
                 }
               }
             }
-          ]);
-          res.status(200).json(results);
+          ])
+        res.status(200).json(results);
     }catch(err){
         res.status(500).json(err);
     }
