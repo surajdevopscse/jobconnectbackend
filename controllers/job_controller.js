@@ -18,7 +18,7 @@ createJob:async(req,res)=>{
 
 //Update a Job by its ID
 updateJob:async(req,res)=>{
-    const jobId =req.param.id;
+    const jobId =req.params.id;
     const updated =  req.body;
     try{
         const updatedJob = await Job.findByIdAndUpdate(jobId,updated,{new:true});
@@ -34,7 +34,7 @@ updateJob:async(req,res)=>{
 
 //Delete job by its Id
 deleteJob:async(req,res)=>{
-    const jobId =req.param.id;
+    const jobId =req.params.id;
     try{
         const deletedJob = await Job.findByIdAndDelete(jobId);
         if(!deletedJob){
@@ -49,7 +49,7 @@ deleteJob:async(req,res)=>{
 
 //Get Job By Its ID
 getJob:async(req,res)=>{
-    const jobId =req.param.id;
+    const jobId =req.params.id;
     try{
         const job = await Job.findById({_id:jobId},{createdAt:0,updatedAt:0,__V:0});
         return res.status(200).json(job);
